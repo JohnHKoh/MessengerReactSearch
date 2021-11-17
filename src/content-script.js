@@ -43,9 +43,15 @@ function addSearchBar(node) {
     $("#reaction-search-input").on("input", handleSearch);
 }
 
+let parentsMap = {};
+
 function handleSearch(e) {
     if ($("#insert-into-me")) {
-        $("#insert-into-me").empty();
+        $("#insert-into-me").children("[role='gridcell']").each((i, el) => {
+            const emoji = $(el).find("img").attr("alt");
+            const parent = parentsMap[emoji];
+            parent.append(el);
+        })
     }
     const val = $(this).val();
     const siblings = $("#reaction-search-id").siblings();
@@ -73,7 +79,8 @@ function handleSearch(e) {
         console.log(matches);
         matches.forEach((match) => {
             let emojiCell = emojis.find(`[alt='${match}']`).closest("[role='gridcell']");
-            $("#insert-into-me").append($(emojiCell[0]).clone());
+            parentsMap[match] = emojiCell.parent();
+            $("#insert-into-me").append(emojiCell);
         });
     }
 }
