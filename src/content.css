@@ -1,0 +1,26 @@
+#reaction-search-id {
+    margin-left: 3px;
+    align-items: flex-start;
+}
+
+.reaction-search-input-box {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+#reaction-search-input {
+    width: 90%;
+    border-radius: 20px;
+    border: 0;
+    background-color: var(--comment-background);
+    padding: 7px;
+}
+
+#reaction-search-input:focus {
+    outline: none;
+}
+
+#reaction-search-input::placeholder {
+    color: var(--secondary-text);
+}

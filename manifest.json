@@ -1,0 +1,23 @@
+{
+    "name": "ReactionSearch",
+    "description": "Search emoji reactions for Facebook Messenger",
+    "manifest_version": 2,
+    "version": "1.0",
+    "permissions": [
+        "https://www.messenger.com/t/*"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://www.messenger.com/t/*"
+            ],
+            "js": [
+                "lib/jquery-3.6.0.min.js",
+                "src/content-script.js"
+            ],
+            "css": [
+                "src/content.css"
+            ]
+        }
+    ]
+}
