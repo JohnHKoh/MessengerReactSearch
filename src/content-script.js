@@ -46,7 +46,7 @@ function addSearchBar(node) {
     parentClone.append(
     `
     <div class="reaction-search-input-box">
-        <input id="reaction-search-input" type="text" placeholder="Search" />
+        <input id="reaction-search-input" type="text" placeholder="Search" autocomplete="off" />
     </div>
     `);
     base.prepend(parentClone);
