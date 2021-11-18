@@ -35,6 +35,11 @@ function addSearchBar(node) {
     scroller.scrollTop(1);
     scroller.scrollTop(0);
     const base = parent.parent();
+    const children = base.children();
+    const detached = children.detach();
+    const div = $("<div id='other-emojis'></div>");
+    div.append(detached);
+    base.append(div);
     const parentClone = parent.clone();
     parentClone.attr("id", "reaction-search-id");
     parentClone.empty();
@@ -45,7 +50,6 @@ function addSearchBar(node) {
     </div>
     `);
     base.prepend(parentClone);
-    $("#reaction-search-id").parent().attr("id", "reaction-search-parent");
     $("#reaction-search-input").trigger("focus");
     $("#reaction-search-input").on("input", handleSearch);
 }
@@ -64,12 +68,16 @@ function handleSearch(e) {
     }
     const val = $(this).val().toLowerCase();
     const catSelect = $("[aria-label='Emoji category selector']");
+    const otherEmojis = $("#other-emojis");
     if (val === "") {
-        $("#reaction-search-parent").removeClass("search-active");
+        const t0 = performance.now();
+        otherEmojis.show();
+        const t1 = performance.now();
+        console.log(`Call to doSomething took ${t1 - t0} milliseconds.`);
         catSelect.show();
     }
     else {
-        $("#reaction-search-parent").addClass("search-active");
+        otherEmojis.hide();
         catSelect.hide();
         let matches = EmojiSearch.getMatches(val);
         addEmojisToResult(matches);
@@ -77,7 +85,7 @@ function handleSearch(e) {
 }
 
 function initEmojiCache() {
-    const emojis = $("[aria-label='Emoji picker']").children(":first").children(":not(:first):not(:nth-child(2))").find("[role='gridcell']");
+    const emojis = $("#other-emojis").children(":not(:first)").find("[role='gridcell']");
     emojis.each((i, emoji) => {
         const emojiAlt = $(emoji).find("img").attr("alt");
         emojiCache[emojiAlt] = emoji;

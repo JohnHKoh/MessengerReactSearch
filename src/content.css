@@ -3,12 +3,8 @@
     align-items: flex-start;
 }
 
-#reaction-search-parent>div:not(#reaction-search-id) {
-    display: flex;
-}
-
-#reaction-search-parent.search-active>div:not(#reaction-search-id) {
-    display: none;
+#other-emojis {
+    display: block;
 }
 
 .reaction-search-input-box {
