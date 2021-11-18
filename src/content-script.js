@@ -74,7 +74,7 @@ function handleSearch(e) {
         //const t0 = performance.now();
         otherEmojis.css('display', '');
         //const t1 = performance.now();
-        console.log(`Call to doSomething took ${t1 - t0} milliseconds.`);
+        //console.log(`Call to doSomething took ${t1 - t0} milliseconds.`);
         catSelect.show();
     }
     else {
