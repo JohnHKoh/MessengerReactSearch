@@ -3,10 +3,6 @@
     align-items: flex-start;
 }
 
-#other-emojis {
-    display: block;
-}
-
 .reaction-search-input-box {
     display: flex;
     justify-content: flex-start;

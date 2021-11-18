@@ -31,7 +31,7 @@ let emojiCache = {};
 
 function addSearchBar(node) {
     const parent = $(node).find("[aria-label='Your Reactions']").parent();
-    const scroller = parent.parent().parent().parent().parent().parent();
+    const scroller = $("[aria-label='Emoji picker']").parent().parent().parent();
     scroller.scrollTop(1);
     scroller.scrollTop(0);
     const base = parent.parent();
@@ -71,13 +71,13 @@ function handleSearch(e) {
     const otherEmojis = $("#other-emojis");
     if (val === "") {
         const t0 = performance.now();
-        otherEmojis.show();
+        otherEmojis.css('display', '');
         const t1 = performance.now();
         console.log(`Call to doSomething took ${t1 - t0} milliseconds.`);
         catSelect.show();
     }
     else {
-        otherEmojis.hide();
+        otherEmojis.css('display', 'none');
         catSelect.hide();
         let matches = EmojiSearch.getMatches(val);
         addEmojisToResult(matches);
