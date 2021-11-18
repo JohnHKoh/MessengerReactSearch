@@ -1,4 +1,5 @@
 const MORE_EMOJIS_SELECTOR = "[aria-label='Show more emojis'][role='button']";
+let emojiCache = {};
 
 $(function () {
     $("body").on("click", MORE_EMOJIS_SELECTOR, function() {
@@ -18,6 +19,7 @@ function emojiObserver(mutationsList, observer) {
             Array.from(mutation.addedNodes).find(node => {
                 if (node.tagName === "DIV" && node.getAttribute("role") === "dialog") {
                     observer.disconnect();
+                    emojiCache = {};
                     addSearchBar(node);
                     return true;
                 }
@@ -26,8 +28,6 @@ function emojiObserver(mutationsList, observer) {
         }
     }
 }
-
-let emojiCache = {};
 
 function addSearchBar(node) {
     const parent = $(node).find("[aria-label='Your Reactions']").parent();
