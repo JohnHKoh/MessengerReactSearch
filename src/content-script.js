@@ -40,6 +40,7 @@ function addSearchBar(node) {
     </div>
     `);
     base.prepend(parentClone);
+    $("#reaction-search-input").focus();
     $("#reaction-search-input").on("input", handleSearch);
 }
 
