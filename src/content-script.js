@@ -45,6 +45,7 @@ function addSearchBar(node) {
     </div>
     `);
     base.prepend(parentClone);
+    $("#reaction-search-id").parent().attr("id", "reaction-search-parent");
     $("#reaction-search-input").trigger("focus");
     $("#reaction-search-input").on("input", handleSearch);
 }
@@ -61,15 +62,14 @@ function handleSearch(e) {
         });
         $("#insert-into-me").remove();
     }
-    const val = $(this).val();
-    const siblings = $("#reaction-search-id").siblings();
+    const val = $(this).val().toLowerCase();
     const catSelect = $("[aria-label='Emoji category selector']");
     if (val === "") {
-        siblings.show();
+        $("#reaction-search-parent").removeClass("search-active");
         catSelect.show();
     }
     else {
-        siblings.hide();
+        $("#reaction-search-parent").addClass("search-active");
         catSelect.hide();
         let matches = EmojiSearch.getMatches(val);
         addEmojisToResult(matches);
@@ -85,7 +85,6 @@ function initEmojiCache() {
 }
 
 function addEmojisToResult(matches) {
-    var startTime = performance.now();
     $("#reaction-search-id").append(
         `
         <div>
@@ -108,12 +107,9 @@ function addEmojisToResult(matches) {
         parentsMap[match] = $(emojiCell).parent();
         row.append(emojiCell);
         rowCount++;
-        console.log('added emoji ' + rowCount + ' on row ' + rowNumber);
         if (rowCount === 6) {
             rowNumber++;
             rowCount = 0;
         }
     });
-    var endTime = performance.now()
-    console.log(`Call to doSomething took ${endTime - startTime} milliseconds`)
 }

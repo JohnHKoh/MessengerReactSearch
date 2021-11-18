@@ -3,6 +3,14 @@
     align-items: flex-start;
 }
 
+#reaction-search-parent>div:not(#reaction-search-id) {
+    display: flex;
+}
+
+#reaction-search-parent.search-active>div:not(#reaction-search-id) {
+    display: none;
+}
+
 .reaction-search-input-box {
     display: flex;
     justify-content: flex-start;
