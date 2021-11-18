@@ -27,6 +27,8 @@ function emojiObserver(mutationsList, observer) {
     }
 }
 
+let emojiCache = {};
+
 function addSearchBar(node) {
     const parent = $(node).find("[aria-label='Your Reactions']").parent();
     const scroller = parent.parent().parent().parent().parent().parent();
@@ -43,13 +45,14 @@ function addSearchBar(node) {
     </div>
     `);
     base.prepend(parentClone);
-    $("#reaction-search-input").focus();
+    $("#reaction-search-input").trigger("focus");
     $("#reaction-search-input").on("input", handleSearch);
 }
 
 let parentsMap = {};
 
 function handleSearch(e) {
+    if ($.isEmptyObject(emojiCache)) initEmojiCache();
     if ($("#insert-into-me")) {
         $("#insert-into-me").find("[role='gridcell']").each((i, el) => {
             const emoji = $(el).find("img").attr("alt");
@@ -61,7 +64,6 @@ function handleSearch(e) {
     const val = $(this).val();
     const siblings = $("#reaction-search-id").siblings();
     const catSelect = $("[aria-label='Emoji category selector']");
-    const emojis = $("[aria-label='Emoji picker']").children(":first").children(":not(:first):not(:nth-child(2))").find("[role='gridcell']");
     if (val === "") {
         siblings.show();
         catSelect.show();
@@ -69,31 +71,49 @@ function handleSearch(e) {
     else {
         siblings.hide();
         catSelect.hide();
-        $("#reaction-search-id").append(
+        let matches = EmojiSearch.getMatches(val);
+        addEmojisToResult(matches);
+    }
+}
+
+function initEmojiCache() {
+    const emojis = $("[aria-label='Emoji picker']").children(":first").children(":not(:first):not(:nth-child(2))").find("[role='gridcell']");
+    emojis.each((i, emoji) => {
+        const emojiAlt = $(emoji).find("img").attr("alt");
+        emojiCache[emojiAlt] = emoji;
+    });
+}
+
+function addEmojisToResult(matches) {
+    var startTime = performance.now();
+    $("#reaction-search-id").append(
         `
         <div>
             <div role="rowgroup">
                 <div id="insert-into-me"></div>
             </div>
         </div>
-        `)
-        let matches = EmojiSearch.getMatches(val);
-        let index = 0;
-        matches.forEach((match) => {
-            let emojiCell = emojis.find(`[alt='${match}']`).closest("[role='gridcell']");
-            if (emojiCell.length === 0) return;
-            let rowNumber = Math.floor(index/6);
-            let rowId = `search-row-${rowNumber}`;
-            let rowIdSelector = "#" + rowId;
-            if (index % 6 === 0) {
-                $("#insert-into-me").append(`
-                <div id="${rowId}" role="row">
-                </div>
-            `)
-            }
-            parentsMap[match] = emojiCell.parent();
-            $(rowIdSelector).append(emojiCell);
-            index++;
-        });
-    }
+        `
+    );
+    let rowNumber = 0;
+    let rowCount = 0;
+    let row;
+    matches.forEach((match) => {
+        let emojiCell = emojiCache[match];
+        if (!emojiCell) return;
+        if (rowCount === 0) {
+            row = $(`<div role="row"></div>`)
+            $("#insert-into-me").append(row);
+        }
+        parentsMap[match] = $(emojiCell).parent();
+        row.append(emojiCell);
+        rowCount++;
+        console.log('added emoji ' + rowCount + ' on row ' + rowNumber);
+        if (rowCount === 6) {
+            rowNumber++;
+            rowCount = 0;
+        }
+    });
+    var endTime = performance.now()
+    console.log(`Call to doSomething took ${endTime - startTime} milliseconds`)
 }
