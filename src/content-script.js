@@ -29,6 +29,9 @@ function emojiObserver(mutationsList, observer) {
 
 function addSearchBar(node) {
     const parent = $(node).find("[aria-label='Your Reactions']").parent();
+    const scroller = parent.parent().parent().parent().parent().parent();
+    scroller.scrollTop(1);
+    scroller.scrollTop(0);
     const base = parent.parent();
     const parentClone = parent.clone();
     parentClone.attr("id", "reaction-search-id");
