@@ -3,13 +3,12 @@
     "description": "Search emoji reactions for Facebook Messenger",
     "manifest_version": 2,
     "version": "1.0",
-    "permissions": [
-        "https://www.messenger.com/t/*"
-    ],
+    "permissions": [],
     "content_scripts": [
         {
             "matches": [
-                "https://www.messenger.com/t/*"
+                "https://www.messenger.com/t/*",
+                "https://www.facebook.com/*"
             ],
             "js": [
                 "lib/jquery-3.6.0.min.js",
