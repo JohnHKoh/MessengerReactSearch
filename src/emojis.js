@@ -664,6 +664,7 @@ const emojiDict = {
     "sparkles": "✨",
     "tanabata tree": "🎋",
     "pine decoration": "🎍",
+    // Food & Drink
     "spoon": "🥄",
     "fork and knife": "🍴",
     "fork and knife with plate": "🍽️",
@@ -787,6 +788,7 @@ const emojiDict = {
     "watermelon": "🍉",
     "melon": "🍈",
     "grapes": "🍇",
+    // Activity
     "bow and arrow": "🏹",
     "clapper board": "🎬",
     "long drum": "🪘",
@@ -900,6 +902,7 @@ const emojiDict = {
     "man climbing": "🧗‍♂️",
     "person climbing": "🧗",
     "person in suit levitating": "🕴️",
+    // Travel & Places
     "left luggage": "🛅",
     "baggage claim": "🛄",
     "customs": "🛃",
@@ -1033,6 +1036,7 @@ const emojiDict = {
     "snow-capped mountain": "🏔️",
     "map of japan": "🗾",
     "person rowing boat": "🚣",
+    // Objects
     "potable water": "🚰",
     "placard": "🪧",
     "moai": "🗿",
@@ -1266,6 +1270,7 @@ const emojiDict = {
     "bomb": "💣",
     "hole": "🕳️",
     "love letter": "💌",
+    // Symbols
     "black square button": "🔲",
     "white square button": "🔳",
     "radio button": "🔘",
@@ -1559,6 +1564,7 @@ const emojiDict = {
     "sparkling heart": "💖",
     "heart with ribbon": "💝",
     "heart with arrow": "💘",
+    // Flags
     "refugee nation flag": "🏳‍🟧‍⬛‍🟧",
     "flag for texas (us-tx)": "🏴󠁵󠁳󠁴󠁸󠁿",
     "flag: wales": "🏴󠁧󠁢󠁷󠁬󠁳󠁿",
@@ -1831,3 +1837,12 @@ const emojiDict = {
     "triangular flag": "🚩",
     "chequered flag": "🏁"
 }
+
+// Emojis pulled from https://emojipedia.org
+// JQuery code: 
+// arr = $(".emoji-list li a").contents().toArray()
+// json = {}
+// for (let i = arr.length-1; i >= 0; i = i-2) {
+//     json[$(arr[i]).text().toLowerCase().trim()] = $(arr[i-1]).text()
+// }
+// console.log(JSON.stringify(json, null, 2))
