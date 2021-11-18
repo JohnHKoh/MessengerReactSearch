@@ -51,7 +51,8 @@ function handleSearch(e) {
             const emoji = $(el).find("img").attr("alt");
             const parent = parentsMap[emoji];
             parent.append(el);
-        })
+        });
+        $("#insert-into-me").remove();
     }
     const val = $(this).val();
     const siblings = $("#reaction-search-id").siblings();
