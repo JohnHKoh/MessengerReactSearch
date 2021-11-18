@@ -29,7 +29,7 @@ function emojiObserver(mutationsList, observer) {
     }
 }
 
-function addSearchBar(node) {
+async function addSearchBar(node) {
     const parent = $(node).find("[aria-label='Your Reactions']").parent();
     const scroller = $("[aria-label='Emoji picker']").parent().parent().parent();
     scroller.scrollTop(1);
@@ -46,10 +46,12 @@ function addSearchBar(node) {
     parentClone.append(
     `
     <div class="reaction-search-input-box">
-        <input id="reaction-search-input" type="text" placeholder="Search" autocomplete="off" />
+        <input id="reaction-search-input" type="text" placeholder="Search" autocomplete="off" disabled />
     </div>
     `);
     base.prepend(parentClone);
+    if ($.isEmptyObject(emojiCache)) await initEmojiCache();
+    $("#reaction-search-input").attr("disabled", false);
     $("#reaction-search-input").trigger("focus");
     $("#reaction-search-input").on("input", handleSearch);
 }
@@ -57,7 +59,6 @@ function addSearchBar(node) {
 let parentsMap = {};
 
 function handleSearch(e) {
-    if ($.isEmptyObject(emojiCache)) initEmojiCache();
     if ($("#insert-into-me")) {
         $("#insert-into-me").find("[role='gridcell']").each((i, el) => {
             const emoji = $(el).find("img").attr("alt");
@@ -70,9 +71,9 @@ function handleSearch(e) {
     const catSelect = $("[aria-label='Emoji category selector']");
     const otherEmojis = $("#other-emojis");
     if (val === "") {
-        const t0 = performance.now();
+        //const t0 = performance.now();
         otherEmojis.css('display', '');
-        const t1 = performance.now();
+        //const t1 = performance.now();
         console.log(`Call to doSomething took ${t1 - t0} milliseconds.`);
         catSelect.show();
     }
@@ -84,12 +85,32 @@ function handleSearch(e) {
     }
 }
 
-function initEmojiCache() {
-    const emojis = $("#other-emojis").children(":not(:first)").find("[role='gridcell']");
+async function initEmojiCache() {
+    let emojis = await retrieveEmojis();
     emojis.each((i, emoji) => {
         const emojiAlt = $(emoji).find("img").attr("alt");
         emojiCache[emojiAlt] = emoji;
     });
+}
+
+function retrieveEmojis() {
+    let emojis = $("#other-emojis").children(":not(:first)").find("[role='gridcell']");
+    return new Promise(resolve => {
+        let i = 0;
+        while (i < 30) {
+            (function(i) {
+                setTimeout(function() {
+                    if (emojis.length > 0) {
+                        resolve(emojis);
+                    }
+                    else {
+                        emojis = $("#other-emojis").children(":not(:first)").find("[role='gridcell']");
+                    }
+                }, 100 * i)
+            })(i++)
+        }
+    })
+
 }
 
 function addEmojisToResult(matches) {
