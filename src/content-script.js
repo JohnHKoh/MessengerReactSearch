@@ -47,7 +47,7 @@ let parentsMap = {};
 
 function handleSearch(e) {
     if ($("#insert-into-me")) {
-        $("#insert-into-me").children("[role='gridcell']").each((i, el) => {
+        $("#insert-into-me").find("[role='gridcell']").each((i, el) => {
             const emoji = $(el).find("img").attr("alt");
             const parent = parentsMap[emoji];
             parent.append(el);
@@ -68,33 +68,27 @@ function handleSearch(e) {
         `
         <div>
             <div role="rowgroup">
-                <div>
-                    <div id="insert-into-me" role="row">
-                    </div>
-                </div>
+                <div id="insert-into-me"></div>
             </div>
         </div>
         `)
-        let matches = emojiSearch(val);
-        console.log(matches);
+        let matches = EmojiSearch.getMatches(val);
+        let index = 0;
         matches.forEach((match) => {
             let emojiCell = emojis.find(`[alt='${match}']`).closest("[role='gridcell']");
+            if (emojiCell.length === 0) return;
+            let rowNumber = Math.floor(index/6);
+            let rowId = `search-row-${rowNumber}`;
+            let rowIdSelector = "#" + rowId;
+            if (index % 6 === 0) {
+                $("#insert-into-me").append(`
+                <div id="${rowId}" role="row">
+                </div>
+            `)
+            }
             parentsMap[match] = emojiCell.parent();
-            $("#insert-into-me").append(emojiCell);
+            $(rowIdSelector).append(emojiCell);
+            index++;
         });
     }
-}
-
-function emojiSearch(query) {
-    const emojiDict = {
-        "grinning face": "😀",
-        "smiling face with 3 hearts": "🥰"
-    }
-    let matches = [];
-    Object.keys(emojiDict).forEach((key) => {
-        if (key.startsWith(query)) {
-            matches.push(emojiDict[key]);
-        }
-    });
-    return matches;
 }

@@ -13,6 +13,7 @@
             ],
             "js": [
                 "lib/jquery-3.6.0.min.js",
+                "src/emojis.js",
                 "src/content-script.js"
             ],
             "css": [
