@@ -1,7 +1,7 @@
 {
-    "name": "ReactionSearch",
+    "name": "Facebook React Search",
     "description": "Search emoji reactions for Facebook Messenger",
-    "manifest_version": 2,
+    "manifest_version": 3,
     "version": "1.0",
     "permissions": [],
     "content_scripts": [
@@ -22,7 +22,17 @@
         }
     ],
     "web_accessible_resources": [
-        // Icon made by Royyan Wijaya from www.flaticon.com
-        "assets/search.png"
-    ]
+        {
+            "resources": [ 
+                "assets/search.png" // Icon made by Royyan Wijaya from www.flaticon.com
+            ],
+            "matches": [
+                "https://www.messenger.com/*",
+                "https://www.facebook.com/*"
+            ]
+        }
+    ],
+    "icons": {
+        "128": "assets/icon128.png"
+    }
 }

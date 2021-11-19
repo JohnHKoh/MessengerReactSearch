@@ -50,7 +50,7 @@ async function addSearchBar(node) {
     <div class="reaction-search-input-box">
         <div id="input_container">
             <input class="loading-search" id="reaction-search-input" type="text" placeholder="Loading..." autocomplete="off" disabled />
-            <img src="${chrome.extension.getURL('assets/search.png')}" id="input_img">
+            <img src="${chrome.runtime.getURL('assets/search.png')}" id="input_img">
         </div>
     </div>
     `);
