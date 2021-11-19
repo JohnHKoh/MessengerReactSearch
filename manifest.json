@@ -24,7 +24,7 @@
     "web_accessible_resources": [
         {
             "resources": [ 
-                "assets/search.png" // Icon made by Royyan Wijaya from www.flaticon.com
+                "assets/search.png"
             ],
             "matches": [
                 "https://www.messenger.com/*",
