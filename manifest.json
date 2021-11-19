@@ -20,5 +20,9 @@
                 "src/content.css"
             ]
         }
+    ],
+    "web_accessible_resources": [
+        // Icon made by Royyan Wijaya from www.flaticon.com
+        "assets/search.png"
     ]
 }
