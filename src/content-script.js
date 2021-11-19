@@ -56,23 +56,25 @@ async function addSearchBar(node) {
     `);
     base.prepend(parentClone);
     if ($.isEmptyObject(emojiCache)) await initEmojiCache();
-    $("#reaction-search-input").attr("disabled", false);
-    $("#reaction-search-input").attr("placeholder", "Search");
-    $("#reaction-search-input").removeClass("loading-search");
-    $("#reaction-search-input").trigger("focus");
-    $("#reaction-search-input").on("input", handleSearch);
+    const reactionSearchInput = $("#reaction-search-input");
+    reactionSearchInput.attr("disabled", false);
+    reactionSearchInput.attr("placeholder", "Search");
+    reactionSearchInput.removeClass("loading-search");
+    reactionSearchInput.trigger("focus");
+    reactionSearchInput.on("input", handleSearch);
 }
 
 let parentsMap = {};
 
 function handleSearch(e) {
-    if ($("#insert-into-me")) {
-        $("#insert-into-me").find("[role='gridcell']").each((i, el) => {
+    const insertIntoMe = $("#insert-into-me");
+    if (insertIntoMe) {
+        insertIntoMe.find("[role='gridcell']").each((i, el) => {
             const emoji = $(el).find("img").attr("alt");
             const parent = parentsMap[emoji];
             parent.append(el);
         });
-        $("#insert-into-me").remove();
+        insertIntoMe.remove();
     }
     const val = $(this).val().toLowerCase();
     const catSelect = $("[aria-label='Emoji category selector']");
