@@ -29,9 +29,11 @@ function emojiObserver(mutationsList, observer) {
     }
 }
 
+let scroller;
+
 async function addSearchBar(node) {
     const parent = $(node).find("[aria-label='Your Reactions']").parent();
-    const scroller = $("[aria-label='Emoji picker']").parent().parent().parent();
+    scroller = $("[aria-label='Emoji picker']").parent().parent().parent();
     scroller.scrollTop(1);
     scroller.scrollTop(0);
     const base = parent.parent();
@@ -69,15 +71,22 @@ function handleSearch(e) {
     }
     const val = $(this).val().toLowerCase();
     const catSelect = $("[aria-label='Emoji category selector']");
-    const otherEmojis = $("#other-emojis");
+    const otherEmojis = $("#other-emojis").children();
     if (val === "") {
         //const t0 = performance.now();
-        otherEmojis.css('display', '');
+        otherEmojis.filter(":first, :nth-child(2)").css('display', '');
+        const displayOtherEmojis = function() {
+            otherEmojis.css('display', '');
+        }
+        scroller.one("scroll", displayOtherEmojis);
+        catSelect.one("click", displayOtherEmojis);
         //const t1 = performance.now();
         //console.log(`Call to doSomething took ${t1 - t0} milliseconds.`);
         catSelect.show();
     }
     else {
+        scroller.off("scroll");
+        catSelect.off("click");
         otherEmojis.css('display', 'none');
         catSelect.hide();
         let matches = EmojiSearch.getMatches(val);
