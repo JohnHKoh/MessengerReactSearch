@@ -48,12 +48,13 @@ async function addSearchBar(node) {
     parentClone.append(
     `
     <div class="reaction-search-input-box">
-        <input id="reaction-search-input" type="text" placeholder="Search" autocomplete="off" disabled />
+        <input id="reaction-search-input" type="text" placeholder="Loading..." autocomplete="off" disabled />
     </div>
     `);
     base.prepend(parentClone);
     if ($.isEmptyObject(emojiCache)) await initEmojiCache();
     $("#reaction-search-input").attr("disabled", false);
+    $("#reaction-search-input").attr("placeholder", "Search");
     $("#reaction-search-input").trigger("focus");
     $("#reaction-search-input").on("input", handleSearch);
 }
