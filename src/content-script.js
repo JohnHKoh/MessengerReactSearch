@@ -48,13 +48,17 @@ async function addSearchBar(node) {
     parentClone.append(
     `
     <div class="reaction-search-input-box">
-        <input id="reaction-search-input" type="text" placeholder="Loading..." autocomplete="off" disabled />
+        <div id="input_container">
+            <input class="loading-search" id="reaction-search-input" type="text" placeholder="Loading..." autocomplete="off" disabled />
+            <img src="https://cdn-icons.flaticon.com/png/512/3031/premium/3031293.png?token=exp=1637289701~hmac=a5d5f296a984c3631bb5fb31516d6618" id="input_img">
+        </div>
     </div>
     `);
     base.prepend(parentClone);
     if ($.isEmptyObject(emojiCache)) await initEmojiCache();
     $("#reaction-search-input").attr("disabled", false);
     $("#reaction-search-input").attr("placeholder", "Search");
+    $("#reaction-search-input").removeClass("loading-search");
     $("#reaction-search-input").trigger("focus");
     $("#reaction-search-input").on("input", handleSearch);
 }
