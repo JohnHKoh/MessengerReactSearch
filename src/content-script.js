@@ -135,20 +135,37 @@ function addEmojisToResult(matches) {
     );
     let rowNumber = 0;
     let rowCount = 0;
+    let overflow = [];
+    const MAX_ROWS = 9;
     let row;
-    matches.forEach((match) => {
+    for (let match of matches) {
         let emojiCell = emojiCache[match];
-        if (!emojiCell) return;
+        if (!emojiCell) continue;
         if (rowCount === 0) {
-            row = $(`<div role="row"></div>`)
+            row = $(`<div id="search-row-${rowNumber}" style="height: 38px" role="row"></div>`)
             $("#insert-into-me").append(row);
         }
-        parentsMap[match] = $(emojiCell).parent();
-        row.append(emojiCell);
+        if (rowNumber < MAX_ROWS) {
+            parentsMap[match] = $(emojiCell).parent();
+            row.append(emojiCell);
+        }
+        else {
+            overflow.push([match, emojiCell]);
+        }
         rowCount++;
         if (rowCount === 6) {
             rowNumber++;
             rowCount = 0;
         }
-    });
+    }
+    if (overflow.length > 0) {
+        scroller.one("scroll", function() {
+            for (let i = 0; i < overflow.length; i++) {
+                const rowIndex = Math.floor(i / 6) + MAX_ROWS;
+                const [match, emojiCell] = overflow[i];
+                parentsMap[match] = $(emojiCell).parent();
+                $(`#search-row-${rowIndex}`).append(emojiCell);
+            }
+        })
+    }
 }
