@@ -97,7 +97,7 @@ function retrieveEmojis() {
     let emojis = $("#other-emojis").children(":not(:first)").find("[role='gridcell']");
     return new Promise(resolve => {
         let i = 0;
-        while (i < 30) {
+        while (i < 100) {
             (function(i) {
                 setTimeout(function() {
                     if (emojis.length > 0) {
