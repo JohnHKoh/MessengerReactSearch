@@ -1,0 +1,1 @@
+This Chrome extension adds the search functionality to the web version of Facebook messenger, either on Facebook.com or Messenger.com.
