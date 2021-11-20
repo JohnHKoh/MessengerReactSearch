@@ -81,9 +81,12 @@ function handleSearch(e) {
     const otherEmojis = $("#other-emojis").children();
     if (val === "") {
         //const t0 = performance.now();
+        const overflow = otherEmojis.find(":nth-child(2) [role='row']").slice(8);
+        overflow.css('display', 'none');
         otherEmojis.filter(":first, :nth-child(2)").css('display', '');
         const displayOtherEmojis = function() {
             otherEmojis.css('display', '');
+            overflow.css('display', '');
         }
         scroller.one("scroll", displayOtherEmojis);
         catSelect.one("click", displayOtherEmojis);
