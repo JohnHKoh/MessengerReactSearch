@@ -1,8 +1,8 @@
 {
-    "name": "Facebook React Search",
+    "name": "Messenger React Search",
     "description": "Search emoji reactions for Facebook Messenger",
     "manifest_version": 3,
-    "version": "1.0",
+    "version": "1.0.1",
     "permissions": [],
     "content_scripts": [
         {
